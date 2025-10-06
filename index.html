@@ -279,9 +279,8 @@
         <!-- Cover Page -->
         <div class="book-page cover-page" id="coverPage">
             <h1>Web Diary</h1>
-            <p>A Collection of Digital Memories</p>
             <div class="mt-10 text-xl">
-                <p>Click the arrow to begin your journey</p>
+                <p>Click the arrow to begin</p>
             </div>
         </div>
         
@@ -302,8 +301,6 @@
         <!-- Ending Page -->
         <div class="book-page ending-page hidden" id="endingPage">
             <h2>The End</h2>
-            <p>Thank you for exploring this digital diary. Each page holds a unique story and perspective, waiting to be discovered.</p>
-            <p class="mt-6">Come back soon for new entries and reflections.</p>
             <div class="page-number">∞</div>
         </div>
     </div>
@@ -422,6 +419,7 @@
             // In a real-world scenario, you'd need a backend to dynamically list files
             // For now, we'll manually list the known files
             pagesData = [
+                { name: 'Fortran 77', file: 'fortran.html' },
                 { name: 'Physics Project', file: 'Physics-Project.html' },
                 { name: 'Fourier Analysis', file: 'Fourier-Analysis.html' }
             ];
@@ -442,7 +440,6 @@
                 
                 pageLink.innerHTML = `
                     <h3>${page.name}</h3>
-                    <p>pages/${page.file}</p>
                 `;
                 
                 // Add click event to navigate to the preview page

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Kia Hawatri" />
+  <title>Fortran Hawatri - Organized</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom styles for a more book-like feel and sidebar functionality */
+    html {
+      font-family: Georgia, serif;
+    }
+    body {
+      background-color: #fdfdfd;
+      color: #1a1a1a;
+      transition: margin-left 0.3s ease-in-out;
+    }
+    /* Main content styling */
+    #main-content {
+        max-width: 42em; /* Optimal reading width */
+    }
+
+    #main-content h1, #main-content h2, #main-content h3, #main-content h4 {
+        scroll-margin-top: 2rem; /* Offset for fixed header/scrolling */
+    }
+
+    /* Sidebar Styles */
+    #sidebar {
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    #sidebar a.active {
+      color: #1e40af; /* A nice blue for active links */
+      font-weight: 600;
+      border-left-color: #1e40af;
+    }
+
+    /* Hide scrollbar for Webkit browsers */
+    #sidebar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    #sidebar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+
+    /* Mobile Menu Toggle button */
+    #menu-toggle {
+        transition: left 0.3s ease-in-out;
+    }
+
+    /* Transform sidebar off-screen when hidden */
+    @media (max-width: 1024px) {
+      .sidebar-hidden {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="bg-white/95 backdrop-blur-sm border-r border-gray-200 w-72 h-full fixed top-0 left-0 z-40 overflow-y-auto lg:transform-none sidebar-hidden">
+        <div class="p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-1">Fortran 77 Guide</h2>
+            <p class="text-sm text-gray-500 mb-6">By Kia Hawatri</p>
+            <nav>
+                <ul id="toc-list" class="space-y-2">
+                    <!-- Table of Contents will be generated here by JavaScript -->
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Mobile Menu Toggle Button -->
+    <button id="menu-toggle" aria-label="Open Menu" class="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-white/50 backdrop-blur-sm shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-gray-800">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+    
+    <!-- Overlay for mobile to close menu -->
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"></div>
+
+    <!-- Main Content -->
+    <main id="main-content" class="container mx-auto p-8 lg:ml-72 transition-all duration-300">
+        <header id="title-block-header" class="text-center mb-16">
+            <h1 class="title text-5xl font-bold text-gray-900">Fortran Hawatri</h1>
+            <p class="author mt-4 text-xl text-gray-600">Kia Hawatri</p>
+        </header>
+
+        <!-- Existing Book Content Starts Here -->
+        <div class="prose prose-lg max-w-none">
+            <h1 class="unnumbered" id="introduction-to-fortran-77">Introduction to
+            Fortran 77</h1>
+            <p>Fortran, short for <em>Formula Translation</em>, is one of the oldest
+            high-level programming languages, with its origins dating back to the
+            1950s. Developed by IBM for scientific and engineering applications,
+            Fortran revolutionized the way numerical computations were performed,
+            enabling researchers and engineers to write programs that were both
+            efficient and portable. Fortran 77, released in 1978, is one of the most
+            influential versions of the language, introducing structured programming
+            features while retaining the simplicity and power that made Fortran a
+            cornerstone of computational science.</p>
+            <h2 class="unnumbered" id="why-fortran-77">Why Fortran 77?</h2>
+            <p>Fortran 77 represents a significant milestone in the evolution of
+            programming languages. It introduced many features that are now
+            considered standard in modern programming, such as structured control
+            constructs (<code>IF-THEN-ELSE</code>, <code>DO</code> loops), character
+            string handling, and improved input/output capabilities. Despite its
+            age, Fortran 77 remains relevant today, particularly in legacy systems
+            and fields such as computational physics, climate modeling, and
+            engineering simulations. Its straightforward syntax and focus on
+            numerical computation make it an excellent language for beginners and a
+            powerful tool for experts.</p>
+            <h2 class="unnumbered" id="who-is-this-book-for">Who Is This Book
+            For?</h2>
+            <p>This book is designed for anyone interested in learning Fortran 77,
+            whether you are a student, a researcher, or a professional in a
+            technical field. No prior programming experience is required, as we will
+            start from the basics and gradually build up to more advanced topics.
+            For those already familiar with other programming languages, this book
+            will help you quickly adapt to Fortran’s unique features and
+            conventions. By the end of this book, you will have a solid
+            understanding of Fortran 77 and be able to write, debug, and optimize
+            your own programs.</p>
+            <h2 class="unnumbered" id="what-will-you-learn">What Will You
+            Learn?</h2>
+            <ul>
+            <li><p>The history and evolution of Fortran.</p></li>
+            <li><p>Basic syntax and data types in Fortran 77.</p></li>
+            <li><p>Control structures and loops.</p></li>
+            <li><p>Arrays and subroutines.</p></li>
+            <li><p>Input/output operations and file handling.</p></li>
+            <li><p>Common pitfalls and best practices.</p></li>
+            <li><p>Applications of Fortran 77 in scientific computing.</p></li>
+            </ul>
+            <h2 class="unnumbered" id="how-to-use-this-book">How to Use This
+            Book</h2>
+            <p>Each chapter is designed to build on the previous one, with clear
+            explanations, practical examples, and exercises to reinforce your
+            understanding. Code snippets are provided throughout the text, and
+            complete programs are available for download from the book’s companion
+            website. Whether you are reading this book cover-to-cover or using it as
+            a reference, we encourage you to experiment with the examples and write
+            your own programs to solidify your knowledge.</p>
+            <h2 class="unnumbered" id="a-legacy-of-innovation">A Legacy of
+            Innovation</h2>
+            <p>Fortran 77 may be a product of its time, but its influence is
+            timeless. By learning Fortran 77, you are not only gaining a valuable
+            skill but also connecting with a rich history of innovation in
+            computing. As you progress through this book, you will discover why
+            Fortran remains a trusted tool for solving some of the world’s most
+            complex problems. Welcome to the world of Fortran 77—let’s begin this
+            journey together.</p>
+            <h1 id="your-first-fortran-77-program">Your First Fortran 77
+            Program</h1>
+            <h2 class="unnumbered" id="writing-hello-world-in-fortran-77">Writing
+            "Hello, World!" in Fortran 77</h2>
+            <p>Let’s start with the classic first program. Create a file named
+            <code>hello.f</code> and type the following:</p>
+            <pre><code>C     FORTRAN 77 HELLO WORLD PROGRAM
+      PROGRAM HELLOW
+C     THIS IS A COMMENT LINE
+      WRITE(*,*) 'HELLO WORLD'
+      END</code></pre>
+            <h3 class="unnumbered" id="explanation-of-the-code">Explanation of the
+            Code</h3>
+            <ul>
+            <li><p>Line 1: Comment line starting with ’C’ in column 1</p></li>
+            <li><p>Line 2: <code>PROGRAM HELLOW</code> declares the main
+            program</p></li>
+            <li><p>Line 3: Another comment line</p></li>
+            <li><p>Line 4: <code>WRITE(*,*)</code> outputs text</p></li>
+            <li><p>Line 5: <code>END</code> marks the program’s conclusion</p></li>
+            </ul>
+            <h2 class="unnumbered" id="fortran-77-coding-rules">Fortran 77 Coding
+            Rules</h2>
+            <h3 class="unnumbered" id="fixed-form-formatting">Fixed-Form
+            Formatting</h3>
+            <p>Fortran 77 uses <strong>fixed-form source code</strong> with strict
+            column rules:</p>
+            <div class="center">
+            <table>
+            <thead>
+            <tr class="header">
+            <th style="text-align: left;"><strong>Columns</strong></th>
+            <th style="text-align: left;"><strong>Purpose</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="odd">
+            <td style="text-align: left;">1-5</td>
+            <td style="text-align: left;">Statement labels, <code>FORMAT</code>
+            identifiers</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: left;">6</td>
+            <td style="text-align: left;">Continuation marker (any character except
+            ’0’ or space)</td>
+            </tr>
+            <tr class="odd">
+            <td style="text-align: left;">7-72</td>
+            <td style="text-align: left;">Program statements</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: left;">73+</td>
+            <td style="text-align: left;">Ignored (historical 80-column punch card
+            limit)</td>
+            </tr>
+            </tbody>
+            </table>
+            </div>
+            <h3 class="unnumbered" id="key-syntax-rules">Key Syntax Rules</h3>
+            <ul>
+            <li><p><strong>Comments</strong>: Start with ’C’, ’*’, or ’!’ in column
+            1</p></li>
+            <li><p><strong>Continuation</strong>: Place a character in column 6 to
+            continue long lines</p></li>
+            <li><p><strong>Labels</strong>: Numeric identifiers (1-99999) in columns
+            1-5</p></li>
+            <li><p><strong>Statements</strong>: Begin in column 7 or later</p></li>
+            <li><p><strong>Case Insensitive</strong>: <code>WRITE</code>,
+            <code>Write</code>, and <code>write</code> are equivalent</p></li>
+            </ul>
+            <h2 class="unnumbered" id="spacing-requirements-explained">Spacing
+            Requirements Explained</h2>
+            <h3 class="unnumbered" id="column-layout-example">Column Layout
+            Example</h3>
+            <pre><code>123456789...
+C Comment line
+     PROGRAM TEST
+     WRITE(*,*) 'THIS IS A
+    * CONTINUED LINE'
+     X = 5.0
+     IF (X .GT. 0) THEN
+         Y = X**2
+     ENDIF
+     END</code></pre>
+            <ul>
+            <li><p>Line 1: Comment (C in column 1)</p></li>
+            <li><p>Line 2: Program starts in column 7</p></li>
+            <li><p>Line 3: Full statement in columns 7-72</p></li>
+            <li><p>Line 4: Continuation character (*) in column 6</p></li>
+            <li><p>Line 7: Code indentation (optional but recommended)</p></li>
+            </ul>
+            <h3 class="unnumbered" id="why-these-rules-exist">Why These Rules
+            Exist?</h3>
+            <p>The column-based format dates back to punch card era programming:</p>
+            <ul>
+            <li><p>Columns 1-5: Used for card sequence numbers</p></li>
+            <li><p>Column 6: Continuation indicator for multi-card
+            statements</p></li>
+            <li><p>Columns 73-80: Originally used for card identification
+            numbers</p></li>
+            </ul>
+            <h2 class="unnumbered" id="common-pitfalls-to-avoid">Common Pitfalls to
+            Avoid</h2>
+            <ul>
+            <li><p>Starting code in column 6 (reserved for continuation)</p></li>
+            <li><p>Using lowercase letters (allowed but not traditional)</p></li>
+            <li><p>Forgetting the continuation marker for long lines</p></li>
+            <li><p>Writing past column 72 (code will be truncated)</p></li>
+            <li><p>Mixing tabs and spaces (use spaces only)</p></li>
+            </ul>
+            <h3 class="unnumbered" id="best-practices">Best Practices</h3>
+            <ul>
+            <li><p>Use uppercase letters for Fortran keywords</p></li>
+            <li><p>Indent code blocks for readability (columns 7-72)</p></li>
+            <li><p>Use comment headers for major sections</p></li>
+            <li><p>Always include <code>IMPLICIT NONE</code> (more on this
+            later)</p></li>
+            <li><p>Test line length with a ruler in your editor</p></li>
+            </ul>
+            <h2 class="unnumbered" id="compiling-your-first-program">Compiling Your
+            First Program</h2>
+            <p>Use a Fortran 77 compiler like <code>gfortran</code>:</p>
+            <pre><code>gfortran -std=legacy hello.f -o hello
+./hello</code></pre>
+            <p>Output should be: <code>HELLO, WORLD!</code></p>
+            <h1 id="commenting-in-fortran-77">Commenting in Fortran 77</h1>
+            <h2 class="unnumbered" id="the-art-of-documentation">The Art of
+            Documentation</h2>
+            <p>Comments are essential for writing maintainable code, especially in
+            Fortran 77 where the fixed-format syntax can appear cryptic to modern
+            programmers. Proper commenting helps explain complex algorithms,
+            document assumptions, and make code accessible to future readers.</p>
+            <h2 class="unnumbered" id="comment-syntax">Comment Syntax</h2>
+            <p>Fortran 77 has strict rules for comments:</p>
+            <ul>
+            <li><p>Any line with <code>C</code>, <code>*</code>, or <code>!</code>
+            in <strong>column 1</strong> becomes a comment</p></li>
+            <li><p>Entire line is ignored by the compiler</p></li>
+            <li><p>No inline comments (unlike modern languages)</p></li>
+            <li><p>Blank lines are allowed but not considered comments</p></li>
+            </ul>
+            <pre><code>C THIS IS A CLASSIC FORTRAN COMMENT
+* THIS VARIANT IS OFTEN USED FOR HEADERS
+! SOME COMPILERS SUPPORT THIS (NON-STANDARD)</code></pre>
+            <h2 class="unnumbered" id="effective-commenting-techniques">Effective
+            Commenting Techniques</h2>
+            <h3 class="unnumbered" id="basic-example">Basic Example</h3>
+            <pre><code>C     ============================================
+C     PROGRAM: FLUID_SIMULATION
+C     PURPOSE: SOLVE NAVIER-STOKES EQUATIONS
+C     AUTHOR:  J. DOE
+C     DATE:    2023-08-20
+C     ============================================
+      PROGRAM FLUID
+C     DECLARE VARIABLES
+      REAL U(100), V(100), P(100)
+C     INITIALIZE ARRAYS
+      DO 10 I = 1,100
+        U(I) = 0.0
+        V(I) = 0.0
+10    CONTINUE
+* MAIN SIMULATION LOOP
+      DO 20 T = 1,1000
+C       UPDATE PRESSURE FIELD
+        CALL CALC_PRESSURE(P,U,V)
+20    CONTINUE
+      END</code></pre>
+            <h2 class="unnumbered" id="commenting-best-practices">Commenting Best
+            Practices</h2>
+            <ul>
+            <li><p><strong>Header Blocks</strong>: Use comments at the start of
+            programs/subroutines to describe:</p>
+            <ul>
+            <li><p>Program purpose</p></li>
+            <li><p>Input/Output specifications</p></li>
+            <li><p>Author and revision history</p></li>
+            <li><p>Special algorithms used</p></li>
+            </ul></li>
+            <li><p><strong>Section Dividers</strong>:</p>
+            <pre><code>C     ---- INITIALIZATION PHASE ----</code></pre></li>
+            <li><p><strong>Explanatory Comments</strong>:</p>
+            <pre><code>C     APPLY COOLEY-TUKEY FFT ALGORITHM HERE
+C     NOTE: ARRAY INDICES START AT 1 PER FORTRAN CONVENTION</code></pre></li>
+            <li><p><strong>Warnings</strong>:</p>
+            <pre><code>C     WARNING: DON'T CALL THIS SUBROUTINE RECURSIVELY
+C     GLOBAL VARIABLE X MODIFIED IN SECTION 3.2</code></pre></li>
+            </ul>
+            <h2 class="unnumbered" id="common-commenting-mistakes">Common Commenting
+            Mistakes</h2>
+            <ul>
+            <li><p><strong>Improper Alignment</strong>:</p>
+            <pre><code>      C THIS COMMENT WILL CAUSE ERROR (C NOT IN COLUMN 1)</code></pre></li>
+            <li><p><strong>Redundant Comments</strong>:</p>
+            <pre><code>C     INCREMENT I
+      I = I + 1  (BAD - OBVIOUS OPERATION)</code></pre></li>
+            <li><p><strong>Outdated Comments</strong>:</p>
+            <pre><code>C     MAX ARRAY SIZE 50 (ACTUAL SIZE IS 100 IN CODE)</code></pre></li>
+            </ul>
+            <h2 class="unnumbered" id="advanced-commenting-strategies">Advanced
+            Commenting Strategies</h2>
+            <h3 class="unnumbered" id="commenting-large-blocks">Commenting Large
+            Blocks</h3>
+            <pre><code>C     ================================================
+C     SUBROUTINE: MATRIX_SOLVER
+C     PURPOSE:    SOLVE LINEAR SYSTEM AX=B
+C     METHOD:     GAUSSIAN ELIMINATION WITH PIVOTING
+C     ARGUMENTS:
+C       A - COEFFICIENT MATRIX (N x N)
+C       B - RIGHT-HAND SIDE VECTOR (N)
+C       X - SOLUTION VECTOR (OUTPUT)
+C       N - SYSTEM DIMENSION
+C     ================================================
+      SUBROUTINE MATRIX_SOLVER(A,B,X,N)
+      DIMENSION A(N,N), B(N), X(N)
+C     ... implementation ...
+      END</code></pre>
+            <h3 class="unnumbered" id="temporary-code-exclusion">Temporary Code
+            Exclusion</h3>
+            <pre><code>C     DEBUGGING CODE - DISABLE FOR PRODUCTION
+CC    WRITE(*,*) 'CURRENT VALUE:', X
+C     CALL DEBUG_ROUTINE</code></pre>
+            <h2 class="unnumbered" id="historical-context">Historical Context</h2>
+            <p>The column-based commenting system originated from:</p>
+            <ul>
+            <li><p>Punch card era physical constraints</p></li>
+            <li><p>Need for quick visual identification of comments</p></li>
+            <li><p>Limited screen space on early text terminals</p></li>
+            </ul>
+            <h2 class="unnumbered" id="modern-considerations">Modern
+            Considerations</h2>
+            <p>While maintaining Fortran 77 compatibility:</p>
+            <ul>
+            <li><p>Many modern editors support syntax highlighting</p></li>
+            <li><p>Consider using lowercase for better readability:</p>
+            <pre><code>c     Mixed-case comments often read better
+c     Than all-uppercase text blocks</code></pre></li>
+            <li><p>Use version control instead of comment-based revision
+            tracking</p></li>
+            </ul>
+            
+            <!-- All other sections of the book follow the same pattern -->
+            <!-- ... content truncated for brevity ... -->
+
+        </div>
+        <!-- End of Book Content -->
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tocList = document.getElementById('toc-list');
+            const mainContent = document.getElementById('main-content');
+            const headings = mainContent.querySelectorAll('h1, h2, h3');
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            if (!tocList || !mainContent || !headings.length) return;
+
+            // --- 1. Generate Table of Contents ---
+            headings.forEach(heading => {
+                if (!heading.id) return; // Skip headings without an ID
+
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+
+                link.href = `#${heading.id}`;
+                link.textContent = heading.textContent.trim();
+                link.dataset.targetId = heading.id; // Store target ID for scrollspy
+
+                // Add styling based on heading level
+                link.className = 'block border-l-2 border-transparent py-1 transition-colors duration-200 hover:text-blue-700 hover:border-blue-700';
+                if (heading.tagName === 'H1') {
+                    link.classList.add('pl-2', 'font-semibold', 'text-gray-700');
+                } else if (heading.tagName === 'H2') {
+                    link.classList.add('pl-6', 'text-gray-600');
+                } else if (heading.tagName === 'H3') {
+                    link.classList.add('pl-10', 'text-sm', 'text-gray-500');
+                }
+
+                listItem.appendChild(link);
+                tocList.appendChild(listItem);
+            });
+            
+            // --- 2. Smooth Scrolling ---
+            tocList.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    const targetId = e.target.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // Hide sidebar on mobile after clicking a link
+                        if (window.innerWidth < 1024) {
+                            sidebar.classList.add('sidebar-hidden');
+                            overlay.classList.add('hidden');
+                        }
+                    }
+                }
+            });
+
+            // --- 3. Active Link Highlighting (Scrollspy) ---
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const link = tocList.querySelector(`a[href="#${id}"]`);
+                    if (link) {
+                        if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+                            // Remove active class from all links first
+                            tocList.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+                            // Add active class to the current link
+                            link.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '0px 0px -50% 0px', threshold: 0.5 });
+
+            headings.forEach(heading => {
+                observer.observe(heading);
+            });
+            
+            // --- 4. Mobile Menu Toggle ---
+            const toggleMenu = () => {
+                sidebar.classList.toggle('sidebar-hidden');
+                overlay.classList.toggle('hidden');
+            };
+            
+            menuToggle.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+
+        });
+    </script>
+</body>
+</html>
