@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Project Forge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals (Stone, Indigo) -->
+    <!-- Application Structure Plan: The application is structured as a single-page dashboard with a tabbed navigation system. This allows users to seamlessly switch between a high-level comparison view ("Overview") and detailed breakdowns of each of the four project ideas. This non-linear structure is superior to a static document for decision-making, as it facilitates direct comparison and quick access to specific information without extensive scrolling. The default view is the "Overview," which provides an immediate summary to orient the user, while dedicated sections for each project offer in-depth analysis. -->
+    <!-- Visualization & Content Choices: Report Info: Project ideas compared by skill/difficulty. -> Goal: Compare projects to aid decision-making. -> Viz/Presentation Method: An interactive radar chart (Chart.js) in the "Overview" section and simple illustrative graphics (custom Canvas drawings) for each project idea. -> Interaction: Users click tabs to switch views. The radar chart tooltips provide specific scores. -> Justification: The radar chart offers a powerful, multi-axis comparison in a compact format, making it easy to see the trade-offs between projects. The simple canvas drawings provide visual context for each idea without violating the no-SVG constraint and keeping the page lightweight. -> Library/Method: Chart.js, Vanilla JS Canvas API. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+        }
+        .nav-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-btn.active {
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <div class="container mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-stone-900">Physics Project Forge</h1>
+            <p class="mt-2 text-lg text-stone-600">An Interactive Guide to Your Next Big Project</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
+            <button id="nav-overview" class="nav-btn px-4 py-2 rounded-lg font-semibold bg-white text-stone-700 hover:bg-indigo-100 shadow-sm">Overview & Comparison</button>
+            <button id="nav-quantum" class="nav-btn px-4 py-2 rounded-lg font-semibold bg-white text-stone-700 hover:bg-indigo-100 shadow-sm">Quantum Visualizer</button>
+            <button id="nav-spacetime" class="nav-btn px-4 py-2 rounded-lg font-semibold bg-white text-stone-700 hover:bg-indigo-100 shadow-sm">Spacetime Simulator</button>
+            <button id="nav-lab" class="nav-btn px-4 py-2 rounded-lg font-semibold bg-white text-stone-700 hover:bg-indigo-100 shadow-sm">Lab Companion</button>
+            <button id="nav-solver" class="nav-btn px-4 py-2 rounded-lg font-semibold bg-white text-stone-700 hover:bg-indigo-100 shadow-sm">Equation Solver</button>
+        </nav>
+
+        <main id="main-content">
+            <!-- Overview Section -->
+            <section id="content-overview" class="content-section">
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4 text-indigo-700">Project Comparison</h2>
+                    <p class="mb-6 text-stone-600">
+                        Choosing the right project depends on your team's strengths, interests, and goals. This chart compares the four potential projects across key dimensions like technical complexity and practical application. Use this as a starting point to discuss which project aligns best with your vision.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Details Sections will be populated by JS -->
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const projectsData = {
+                quantum: {
+                    title: "The Quantum Wave Function Visualizer",
+                    iconCanvas: (ctx, w, h) => {
+                        ctx.strokeStyle = '#4f46e5';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(0, h/2);
+                        ctx.lineTo(w*0.1, h/2);
+                        ctx.lineTo(w*0.1, h*0.2);
+                        ctx.lineTo(w*0.9, h*0.2);
+                        ctx.lineTo(w*0.9, h/2);
+                        ctx.lineTo(w, h/2);
+                        ctx.stroke();
+                        ctx.strokeStyle = '#a5b4fc';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(w*0.1, h/2);
+                        let x, y;
+                        for(let i=0; i<=w*0.8; i++) {
+                            x = w*0.1 + i;
+                            y = h/2 - Math.sin(i / (w*0.8) * Math.PI * 3) * (h*0.2);
+                            if(i === 0) ctx.moveTo(x, y);
+                            else ctx.lineTo(x, y);
+                        }
+                        ctx.stroke();
+                    },
+                    problem: "Students struggle to grasp the probabilistic nature of quantum mechanics. Wave functions, probability densities, and quantum tunneling are often just static equations in a textbook.",
+                    tool: "A web-based, interactive 2D simulation. Users can define different potential energy wells (like the classic 'particle in a box,' quantum harmonic oscillator, or a potential barrier). They can then set a particle's initial energy and see its wave function evolve in real-time.",
+                    features: [
+                        "Drag-and-drop to create custom potential energy landscapes.",
+                        "Sliders to adjust particle energy, mass, and Planck's constant.",
+                        "Real-time plotting of the wave function (ψ) and the probability density (ψ²).",
+                        "A clear visualization of quantum tunneling.",
+                        "Show discrete energy levels for bound states."
+                    ],
+                    why: "It directly addresses a core difficulty in modern physics, is visually impressive, and has a clear scope. Your physics partner would define the mathematical models (solving the Schrödinger equation numerically), and you would implement the simulation and user interface.",
+                    csRole: "Responsible for building the interactive front-end using the Canvas API or a graphics library, implementing the numerical simulation algorithms (like FDTD method), and designing a responsive and intuitive user interface with sliders and controls.",
+                    physicsRole: "Focuses on deriving and validating the physical models, providing the correct forms of the time-dependent Schrödinger equation for different potentials, and ensuring the simulation results are physically accurate and pedagogically sound."
+                },
+                spacetime: {
+                    title: "General Relativity Spacetime Simulator",
+                    iconCanvas: (ctx, w, h) => {
+                        ctx.strokeStyle = '#6366f1';
+                        ctx.lineWidth = 1;
+                        for(let i=0; i <= 10; i++){
+                            ctx.beginPath();
+                            ctx.moveTo(i * w/10, 0);
+                            ctx.bezierCurveTo(i * w/10, h, w/2, h, w/2, h/2);
+                            ctx.stroke();
+                            ctx.beginPath();
+                            ctx.moveTo(0, i * h/10);
+                            ctx.bezierCurveTo(w, i * h/10, w/2, h/2, w/2, h/2);
+                            ctx.stroke();
+                        }
+                        ctx.fillStyle = '#1e1b4b';
+                        ctx.beginPath();
+                        ctx.arc(w/2, h/2, w/20, 0, 2*Math.PI);
+                        ctx.fill();
+                    },
+                    problem: "The concept of spacetime being a 'fabric' that is warped by mass is profound but incredibly hard to visualize beyond static images.",
+                    tool: "A 3D interactive tool where users can place massive objects (stars, planets, black holes) onto a grid representing spacetime. The grid would deform in 3D based on the objects' mass.",
+                    features: [
+                        "Place objects of varying mass and see the curvature of spacetime.",
+                        "Launch photons or small masses and watch their trajectories bend (gravitational lensing).",
+                        "Visualize an orbit as an object following a geodesic through curved spacetime.",
+                        "Implement sliders for mass and velocity to see their effect."
+                    ],
+                    why: "This is a 'wow-factor' project that makes one of the most complex theories in physics tangible. It would heavily rely on 3D graphics (like Three.js or WebGL) and the physics of the Schwarzschild metric.",
+                    csRole: "Manages the 3D rendering pipeline with a library like Three.js. This includes setting up the scene, camera, lighting, and creating the deformable grid geometry. Implements user interaction for placing objects and launching particles.",
+                    physicsRole: "Provides the mathematical framework based on General Relativity, specifically the equations for spacetime curvature (e.g., from the Schwarzschild metric). Validates that the resulting particle trajectories (geodesics) and gravitational lensing effects are accurate."
+                },
+                lab: {
+                    title: "The Physics Lab Companion",
+                    iconCanvas: (ctx, w, h) => {
+                        ctx.strokeStyle = '#4f46e5';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(w*0.1, h*0.9);
+                        ctx.lineTo(w*0.9, h*0.1);
+                        ctx.stroke();
+                        
+                        ctx.fillStyle = '#a5b4fc';
+                        const points = [[0.2, 0.8], [0.4, 0.5], [0.6, 0.4], [0.8, 0.2]];
+                        points.forEach(([px, py]) => {
+                            ctx.beginPath();
+                            ctx.arc(w*px, h*py, 5, 0, 2 * Math.PI);
+                            ctx.fill();
+                            ctx.beginPath();
+                            ctx.moveTo(w*px - 5, h*py);
+                            ctx.lineTo(w*px + 5, h*py);
+                            ctx.moveTo(w*px, h*py - 5);
+                            ctx.lineTo(w*px, h*py + 5);
+                            ctx.stroke();
+                        });
+                    },
+                    problem: "Students in physics labs often wrestle with clunky software like Excel for data analysis. They struggle with proper error propagation, complex curve fitting, and creating publication-quality graphs.",
+                    tool: "A specialized web application designed for the kind of data analysis done in undergraduate physics experiments.",
+                    features: [
+                        "Simple data import from CSV files.",
+                        "An intuitive interface to assign uncertainties to each measurement.",
+                        "Automatic error propagation for calculations.",
+                        "A powerful curve-fitting engine with pre-set models common in physics.",
+                        "Generates high-quality, customizable plots with error bars."
+                    ],
+                    why: "This is an incredibly practical tool that you and your fellow students could use immediately. It solves a real, recurring problem. The physics major would focus on the statistical and analytical formulas, while the CS major would build the user interface and data processing backend.",
+                    csRole: "Designs and builds a user-friendly web interface for data input and visualization. Implements robust data handling for parsing CSV files and managing data state. Integrates a charting library (like Chart.js) for plotting and handles the logic for user interactions.",
+                    physicsRole: "Defines all the necessary formulas for statistical analysis, including standard deviation, error propagation for various mathematical operations, and the algorithms for weighted least-squares fitting for different physical models (linear, exponential, etc.)."
+                },
+                solver: {
+                    title: "Physics Equation Solver & Derivation Engine",
+                    iconCanvas: (ctx, w, h) => {
+                        ctx.fillStyle = '#312e81';
+                        ctx.font = 'bold 30px Inter';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('E = mc²', w/2, h/2);
+                    },
+                    problem: "Following long mathematical derivations in textbooks or papers can be difficult. It's easy to get lost in the algebraic steps and lose sight of the physical principles being applied.",
+                    tool: "A symbolic computation tool that not only solves physics equations but shows the step-by-step derivation. It would understand physical quantities, units, and common theorems.",
+                    features: [
+                        "User inputs an equation and the desired variable to solve for.",
+                        "Displays each step of the algebraic manipulation.",
+                        "Can perform symbolic calculus and annotate steps with theorems.",
+                        "Built-in unit consistency checks to catch errors."
+                    ],
+                    why: "This is a challenging but extremely powerful learning tool. It would require a deep understanding of symbolic computation libraries (like SymPy in Python) and a well-structured database of physical equations and rules.",
+                    csRole: "Focuses on the core logic of the application, including parsing user input, representing equations in a data structure (like an abstract syntax tree), and implementing the algorithms for symbolic manipulation. This is more of a backend/algorithmic challenge than a UI one.",
+                    physicsRole: "Builds the comprehensive knowledge base of physical equations, principles, and theorems. Defines the rules for their application and the logic for how derivations should proceed, ensuring the steps shown are both mathematically correct and physically meaningful."
+                }
+            };
+            
+            const mainContent = document.getElementById('main-content');
+            Object.keys(projectsData).forEach(key => {
+                const project = projectsData[key];
+                const section = document.createElement('section');
+                section.id = `content-${key}`;
+                section.className = 'content-section';
+                section.innerHTML = `
+                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                        <div class="flex flex-col md:flex-row items-start gap-6">
+                            <div class="w-full md:w-2/3">
+                                <h2 class="text-2xl md:text-3xl font-bold mb-2 text-indigo-700">${project.title}</h2>
+                                <p class="font-semibold text-stone-700 mb-2">The Problem:</p>
+                                <p class="mb-4 text-stone-600">${project.problem}</p>
+                                <p class="font-semibold text-stone-700 mb-2">The Tool:</p>
+                                <p class="mb-4 text-stone-600">${project.tool}</p>
+                            </div>
+                             <div class="w-full md:w-1/3 p-4 bg-stone-50 rounded-lg border border-stone-200">
+                                <canvas id="canvas-${key}" width="200" height="150" class="mx-auto"></canvas>
+                                <p class="text-center text-sm text-stone-500 mt-2">Conceptual Illustration</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 text-stone-800">Key Features</h3>
+                                <ul class="list-disc list-inside space-y-2 text-stone-600">
+                                    ${project.features.map(f => `<li>${f}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 text-stone-800">Why It's a Great Project</h3>
+                                <p class="text-stone-600">${project.why}</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 border-t border-stone-200 pt-6">
+                            <h3 class="text-xl font-bold mb-4 text-center text-stone-800">Skill & Role Breakdown</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="p-4 bg-indigo-50 rounded-lg">
+                                    <h4 class="font-bold text-lg text-indigo-800">Computer Science Role</h4>
+                                    <p class="mt-2 text-stone-700">${project.csRole}</p>
+                                </div>
+                                <div class="p-4 bg-stone-50 rounded-lg">
+                                    <h4 class="font-bold text-lg text-stone-800">Physics Role</h4>
+                                    <p class="mt-2 text-stone-700">${project.physicsRole}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                mainContent.appendChild(section);
+                const canvas = document.getElementById(`canvas-${key}`);
+                const ctx = canvas.getContext('2d');
+                project.iconCanvas(ctx, canvas.width, canvas.height);
+            });
+
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            function showSection(targetId) {
+                contentSections.forEach(section => {
+                    section.classList.toggle('active', section.id === targetId);
+                });
+                navButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.id === `nav-${targetId.split('-')[1]}`);
+                });
+            }
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = `content-${button.id.split('-')[1]}`;
+                    showSection(targetId);
+                });
+            });
+
+            showSection('content-overview');
+            
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            const comparisonData = {
+                labels: ['Graphics Intensity', 'Math/Physics Complexity', 'UI/UX Focus', 'Practicality for Students', 'Wow Factor'],
+                datasets: [
+                    {
+                        label: 'Quantum Visualizer',
+                        data: [8, 9, 7, 7, 8],
+                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                        borderColor: 'rgba(79, 70, 229, 1)',
+                        pointBackgroundColor: 'rgba(79, 70, 229, 1)',
+                    },
+                    {
+                        label: 'Spacetime Simulator',
+                        data: [10, 8, 6, 4, 10],
+                        backgroundColor: 'rgba(219, 39, 119, 0.2)',
+                        borderColor: 'rgba(219, 39, 119, 1)',
+                        pointBackgroundColor: 'rgba(219, 39, 119, 1)',
+                    },
+                    {
+                        label: 'Lab Companion',
+                        data: [5, 6, 9, 10, 6],
+                        backgroundColor: 'rgba(22, 163, 74, 0.2)',
+                        borderColor: 'rgba(22, 163, 74, 1)',
+                        pointBackgroundColor: 'rgba(22, 163, 74, 1)',
+                    },
+                    {
+                        label: 'Equation Solver',
+                        data: [2, 10, 4, 8, 7],
+                        backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                        borderColor: 'rgba(245, 158, 11, 1)',
+                        pointBackgroundColor: 'rgba(245, 158, 11, 1)',
+                    }
+                ]
+            };
+            new Chart(ctx, {
+                type: 'radar',
+                data: comparisonData,
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: '#d6d3d1' // stone-300
+                            },
+                            grid: {
+                                color: '#e7e5e4' // stone-200
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 14,
+                                    weight: '500'
+                                },
+                                color: '#44403c' // stone-700
+                            },
+                            ticks: {
+                                backdropColor: '#f5f5f4', // stone-100
+                                color: '#78716c', // stone-500
+                                stepSize: 2
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

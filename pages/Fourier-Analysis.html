@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Concepts Explained</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- KaTeX for LaTeX Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurideUUEcFzEirhtnqKhrMVDP5TTcDlcvmwJUSCENE சரவணன்="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIgsOJQ9SoQRpDRs5jGsoWAYPz5vAXt2EpNgvAc2pSChKDRf" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURPlLர்துமு+fOuGEefJ4sqfLq2ToAnC1e7tMH9z7ks7wC34qiaSzA" crossorigin="anonymous"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Tailwind gray-900 */
+        }
+        .katex-display {
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0.5rem 0;
+        }
+        code {
+            font-family: 'Roboto Mono', monospace;
+        }
+    </style>
+</head>
+<body class="text-gray-300 antialiased">
+
+    <div class="container mx-auto max-w-4xl px-4 py-8 md:py-16">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-12 md:mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Demystifying Quantum Concepts</h1>
+            <p class="text-lg md:text-xl text-cyan-400">An exploration of Fourier transforms and the Dirac delta function.</p>
+        </header>
+
+        <main class="space-y-12">
+
+            <!-- Section 1: Fourier Transforms -->
+            <section id="fourier" class="bg-gray-800 rounded-lg p-6 md:p-8 shadow-2xl ring-1 ring-white/10">
+                <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-cyan-500 pb-3">The Fourier Transform: From $\psi$ to $\psi^*$</h2>
+                
+                <p class="mb-6 leading-relaxed">
+                    In quantum mechanics, the wavefunction $\psi(x)$ describes a particle in position space. The Fourier transform allows us to see the same particle in momentum space, represented by $\tilde{\psi}(k)$. It's like looking at the same object from two different but equally valid perspectives.
+                </p>
+
+                <div class="bg-gray-900 p-4 rounded-md mb-6">
+                    <h3 class="font-semibold text-white mb-2">Wavefunction $\psi(x)$</h3>
+                    <p>The inverse Fourier transform reconstructs the wavefunction from its momentum components:</p>
+                    <div class="text-center my-4">
+                        $$\psi(x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} \tilde{\psi}(k) e^{ikx} dk$$
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 p-4 rounded-md mb-6">
+                    <h3 class="font-semibold text-white mb-2">Complex Conjugate $\psi^*(x)$</h3>
+                    <p>To find the representation for the complex conjugate, $\psi^*(x)$, we take the conjugate of the entire expression. The key change happens in the complex exponential, where $(e^{ikx})^* = e^{-ikx}$. This leads to:</p>
+                    <div class="text-center my-4">
+                        $$\psi^*(x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} \tilde{\psi}^*(q) e^{-iqx} dq$$
+                    </div>
+                    <p class="mt-4 text-sm text-gray-400">
+                        <strong>Why use 'q' instead of 'k'?</strong> The variable `q` is just a "dummy variable" for integration, representing the wave number just like `k`. We use a different letter to avoid confusion when both $\psi(x)$ and $\psi^*(x)$ appear in the same larger equation, ensuring the two integrals are treated as mathematically distinct.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 2: Dirac Delta Function -->
+            <section id="delta" class="bg-gray-800 rounded-lg p-6 md:p-8 shadow-2xl ring-1 ring-white/10">
+                <h2 class="text-3xl font-bold text-white mb-6 border-b-2 border-cyan-500 pb-3">The Enigmatic Dirac Delta Function</h2>
+                
+                <p class="mb-6 leading-relaxed">
+                    The Dirac delta function, $\delta(x)$, is not a traditional function. It's a "generalized function" or "distribution." You can think of it as an infinitely high, infinitesimally narrow spike at $x=0$, whose total area is exactly 1. Its true meaning, however, is revealed by how it behaves inside an integral.
+                </p>
+
+                <div class="bg-gray-900 p-4 rounded-md mb-6">
+                    <h3 class="font-semibold text-white mb-2">Equality for Distributions</h3>
+                    <p>We can't just ask if two distributions are equal at every point. Instead, we say two distributions, $D_1(x)$ and $D_2(x)$, are equal if they produce the same result when integrated against any arbitrary "test function" $f(x)$:</p>
+                    <div class="text-center my-4">
+                        $$D_1(x) = D_2(x) \iff \int_{-\infty}^{\infty} D_1(x)f(x)dx = \int_{-\infty}^{\infty} D_2(x)f(x)dx$$
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 p-4 rounded-md">
+                    <h3 class="font-semibold text-white mb-2">Proving that $x\delta(x) = 0$</h3>
+                    <p>This surprising result is a direct consequence of the rule above. We test both sides by integrating with $f(x)$:</p>
+                    <ul class="list-disc list-inside space-y-4 my-4">
+                        <li>
+                            <strong>Left-Hand Side:</strong> We use the "sifting property" of the delta function, which picks out the value of the function it's multiplied by at $x=0$.
+                            <div class="text-center my-2">
+                                $$\int_{-\infty}^{\infty} [x\delta(x)] f(x) dx = \int_{-\infty}^{\infty} \delta(x) [xf(x)] dx = [xf(x)]_{x=0} = 0 \cdot f(0) = 0$$
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Right-Hand Side:</strong> This is much simpler.
+                            <div class="text-center my-2">
+                                $$\int_{-\infty}^{\infty} [0] f(x) dx = 0$$
+                            </div>
+                        </li>
+                    </ul>
+                    <p class="mt-4">Since both sides of the equation yield 0 when integrated, we conclude that the distributions themselves are equal: $x\delta(x) = 0$.</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 md:mt-16 text-gray-500">
+            <p>&copy; 2025 Quantum Concepts Explainer. Built for clarity.</p>
+        </footer>
+
+    </div>
+
+    <!-- Script to render KaTeX -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                throwOnError : false
+            });
+        });
+    </script>
+
+</body>
+</html>
